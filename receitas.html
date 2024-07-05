@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <!-- Inclusão da folha de estilos do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container-fluid {
+            background-color: #ffc107; /* bg-warning */
+            padding: 20px;
+        }
+        .pnlCatalogo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body onload="preencheCatalogo()">
+    <div class="container-fluid">
+        <h1>Catálogo de Receitas</h1>
+        <!-- Área principal -->
+        <div id="pnlCatalogo" class="pnlCatalogo">
+            <!-- Aqui serão inseridos os cards de receitas dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Dados das receitas em formato JSON
+        const receitas = [
+            {
+                titulo: "Bolo de Chocolate",
+                imagem: "bolo-chocolate.png",
+                preparo: "Passo a passo de como preparar o bolo de chocolate.",
+                ingredientes: ["Farinha", "Açúcar", "Chocolate em pó", "Ovos", "Leite"]
+            },
+            {
+                titulo: "Lasanha à Bolonhesa",
+                imagem: "lasanha-bolonhesa.png",
+                preparo: "Receita clássica de lasanha com molho bolonhesa.",
+                ingredientes: ["Massa de lasanha", "Carne moída", "Molho de tomate", "Queijo", "Presunto"]
+            }
+            // Adicionar mais receitas conforme necessário
+        ];
+
+        // Função para gerar lista de ingredientes em HTML
+        function getListaIngredientes(receita) {
+            const lista = `<ul>${receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((prev, curr) => prev + curr, '')}</ul>`;
+            return lista;
+        }
+
+        // Função para gerar o card de cada receita
+        function getCard(receita) {
+            return `
+                <div class="card mb-3" style="width: 250px;">
+                    <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}">
+                    <div class="card-body">
+                        <h5 class="card-title">${receita.titulo}</h5>
+                        <div class="card-text">
+                            ${getListaIngredientes(receita)}
+                            <hr>
+                            <p>${receita.preparo}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Função para preencher o catálogo com os cards de receitas
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById('pnlCatalogo');
+            const html = receitas.map(receita => getCard(receita)).reduce((prev, curr) => prev + curr, '');
+            pnlCatalogo.innerHTML = html;
+        }
+    </script>
+
+    <!-- Scripts opcionais do Bootstrap para funcionalidades avançadas -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

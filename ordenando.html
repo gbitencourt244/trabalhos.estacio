@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenação e Adição</title>
+  <!-- Incluir a biblioteca ordenando.js -->
+  <script src="ordenando.js"></script>
+</head>
+<body>
+  <!-- Definir um campo de entrada numérico -->
+  <label for="valor">Valor:</label>
+  <input type="number" id="valor">
+  <!-- Adicionar botão Adicionar -->
+  <button onclick="add()">Adicionar</button>
+  <!-- Definir um campo de seleção com opções -->
+  <label for="metodo">Método de Ordenação:</label>
+  <select id="metodo">
+    <option value="bubbleSort" selected>Bubble Sort</option>
+    <option value="selectionSort">Selection Sort</option>
+    <option value="quickSort">Quick Sort</option>
+  </select>
+  <!-- Adicionar botão Ordenar -->
+  <button onclick="ordenar()">Ordenar</button>
+  <!-- Adicionar botão Misturar -->
+  <button onclick="misturar()">Misturar</button>
+  <!-- Definir uma lista (ul) com id valores -->
+  <ul id="valores"></ul>
+
+  <script>
+    // Função para adicionar valor à lista
+    function add() {
+      var input = document.getElementById('valor');
+      var value = parseInt(input.value);
+      var ul = document.getElementById('valores');
+      var li = document.createElement('li');
+      li.appendChild(document.createTextNode(value));
+      ul.appendChild(li);
+      input.value = ''; // Limpar o campo de entrada após adicionar
+    }
+
+    // Função para ordenar a lista de acordo com o método selecionado
+    function ordenar() {
+      var ul = document.getElementById('valores');
+      var items = ul.getElementsByTagName('li');
+      var array = [];
+      for (var i = 0; i < items.length; i++) {
+        array.push(parseInt(items[i].textContent));
+      }
+      
+      var metodo = document.getElementById('metodo').value;
+      
+      // Escolha do método de ordenação
+      switch (metodo) {
+        case 'bubbleSort':
+          bubbleSort(array);
+          break;
+        case 'selectionSort':
+          selectionSort(array);
+          break;
+        case 'quickSort':
+          quickSort(array, 0, array.length - 1);
+          break;
+        default:
+          break;
+      }
+      
+      // Atualizar a lista ordenada na interface
+      for (var i = 0; i < items.length; i++) {
+        items[i].textContent = array[i];
+      }
+    }
+
+    // Função para misturar aleatoriamente os valores na lista
+    function misturar() {
+      var ul = document.getElementById('valores');
+      var items = ul.getElementsByTagName('li');
+      var array = [];
+      for (var i = 0; i < items.length; i++) {
+        array.push(parseInt(items[i].textContent));
+      }
+      
+      shuffleArray(array); // Utilizando a função de embaralhar da biblioteca ordenando.js
+      
+      // Atualizar a lista misturada na interface
+      for (var i = 0; i < items.length; i++) {
+        items[i].textContent = array[i];
+      }
+    }
+
+    function add() {
+  // Capturar o campo de entrada
+  var input = document.getElementById('valor');
+  var value = input.value.trim(); // Capturar o valor digitado e remover espaços em branco
+  
+  // Verificar se o valor é um número válido
+  if (!value || isNaN(value)) {
+    alert('Por favor, digite um número válido.');
+    return;
+  }
+
+  // Capturar a lista de valores
+  var ul = document.getElementById('valores');
+
+  // Criar um novo elemento li
+  var li = document.createElement('li');
+  
+  // Adicionar o valor como texto dentro do elemento li
+  li.textContent = value;
+
+  // Adicionar o elemento li à lista ul
+  ul.appendChild(li);
+
+  // Limpar o campo de entrada após adicionar
+  input.value = '';
+}
+
+function ordenar() {
+  // Capturar a lista de valores
+  var ul = document.getElementById('valores');
+  var items = ul.children;
+  
+  // Criar um array para armazenar os valores numéricos
+  var array = [];
+  for (var i = 0; i < items.length; i++) {
+    array.push(parseInt(items[i].textContent));
+  }
+
+  // Capturar o método de ordenação selecionado
+  var metodo = document.getElementById('metodo').value;
+
+  // Escolher o algoritmo de ordenação
+  switch (metodo) {
+    case 'bubbleSort':
+      bubbleSort(array);
+      break;
+    case 'selectionSort':
+      selectionSort(array);
+      break;
+    case 'quickSort':
+      quickSort(array, 0, array.length - 1);
+      break;
+    default:
+      break;
+  }
+
+  // Atualizar a lista de valores com os valores ordenados
+  for (var i = 0; i < items.length; i++) {
+    items[i].textContent = array[i];
+  }
+}
+
+function misturar() {
+  // Capturar a lista de valores
+  var ul = document.getElementById('valores');
+  var items = ul.children;
+  
+  // Criar um array para armazenar os valores numéricos
+  var array = [];
+  for (var i = 0; i < items.length; i++) {
+    array.push(parseInt(items[i].textContent));
+  }
+
+  // Aplicar a função de embaralhar (shuffle) ao vetor
+  shuffle(array);
+
+  // Atualizar a lista de valores com os valores embaralhados
+  for (var i = 0; i < items.length; i++) {
+    items[i].textContent = array[i];
+  }
+}
+
+// Função para embaralhar um array (algoritmo Fisher-Yates)
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // Enquanto ainda houver elementos para embaralhar
+  while (currentIndex !== 0) {
+    // Escolhe um elemento restante aleatoriamente
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // E troca com o elemento atual
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+  </script>
+</body>
+</html>
